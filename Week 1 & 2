@@ -1,0 +1,91 @@
+
+
+
+
+/* Question 32.5 #2
+Given the program here, add the necessary statements to compute four new variables:
+a. Weight in kilograms (1 kg = 2.2 pounds). Name this variable WtKg.
+b. Height in centimeters (1 inch = 2.54 cm). Name this variable HtCm.
+c. Average blood pressure (call it AveBP) equal to the diastolic blood pressure plus
+one-third the difference of the systolic blood pressure minus the diastolic blood
+pressure.
+d. A variable (call it HtPolynomial) equal to 2 times the height squared plus 1.5
+times the height cubed.*/
+
+
+data prob2;
+input ID $
+Height /* in inches */
+Weight /* in pounds */
+SBP /* systolic BP */
+DBP /* diastolic BP */;
+
+
+WtKg = Weight/2.2;
+HtCm = Height * 2.54;
+AveBP = DBP+(1/3 * (SBP-DBP));
+HtPolynomial = (2*Height**2)+(1.5*Height**3);
+
+datalines;
+001 68 150 110 70
+002 73 240 150 90
+003 62 101 120 80
+;
+
+title "Listing of PROB2";
+proc print data=prob2;
+run;
+
+
+
+/*Question 3.15 #2
+ a. Write a SAS program to create a temporary SAS data set called Vote. Use the
+ variable names State, Party, and Age. Age should be stored as a numeric variable;
+ State and Party should be stored as character variables.
+ b. Include a procedure to list the observations in this data set.
+ c. Include a procedure to compute frequencies for Party.*/
+
+
+data Vote;
+infile "/home/u63814834/my_shared_file_links/sue.mcdaniel/Wks 1_2/political.csv" dlm=","; 
+input State$ Party$ Age ;
+proc print data=vote noobs;
+proc freq data=vote;
+Run;
+
+
+
+
+/*Question 3.15 #4
+Repeat Problem 2 using a FILENAME statement to create a fileref instead of using
+the file name on the INFILE statements*/
+
+Filename poly2 '/home/u63814834/my_shared_file_links/sue.mcdaniel/Wks 1_2/political.csv';
+
+data Vote;
+infile poly2 dlm=",";
+
+input Symbol$ Party$ Age ;
+proc print data=vote noobs;
+proc freq data=vote;
+Run;
+
+
+
+
+/* Question 3.15 #6
+Create a temporary SAS data set called Bank using this data file. Use column input to
+specify the location of each value. Include in this data set a variable called Interest
+computed by multiplying Balance by Rate. List the contents of this data set using
+PROC PRINT*/
+
+
+data Bank;
+infile "/home/u63814834/my_shared_file_links/sue.mcdaniel/Wks 1_2/bankdata.txt"; 
+input Name$ 1-15
+Account$ 16-20
+Balance 21-26
+Rate 27-30;
+Interest = (Balance *(Rate/100));
+Proc print data=bank;
+Run;
